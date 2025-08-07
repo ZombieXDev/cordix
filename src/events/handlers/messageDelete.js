@@ -1,16 +1,15 @@
 const Message = require("../../structures/Message");
 const Client = require("../../client/Client");
 
-const MessageCreate = {
-  name: "MESSAGE_CREATE",
-  alias: "messageCreate",
+const MessageDelete = {
+  name: "MESSAGE_DELETE",
+  alias: "messageDelete",
   transform: (client, rawData) => {
-    return new Message(client, rawData);
+    return rawData //new Message(client, rawData);
   },
   handler: (client, message, shardId) => {
     // here you can handle the message event
-    console.log(`Message from ${message.author.username}: ${message.content}`);
   },
 };
 
-module.exports = MessageCreate;
+module.exports = MessageDelete;

@@ -1,7 +1,8 @@
 const { Client, Constants } = require("../../src/index.js");
 
 const client = new Client({
-  token: "",
+  token:
+    "",
   intents: Constants.DefaultIntents,
   presence: {
     status: "online",
@@ -11,16 +12,19 @@ const client = new Client({
 });
 
 client
-  .on("onReady", () => {
-    console.log(`${client.user.username} is ready!`);
+  .on("onReady", async() => {
+    console.log("Hello World");
   })
   .on("messageCreate", async (message) => {
     if (message.author.bot) return;
-    if (message.content === "!ping") {
-      client.sendMessage(message.channel_id, "🏓 Pong!");
+    if (message.content === "ping") {
+      message.reply("Hi").then((m) => {
+        client.editMessage(message.channelID, m.id, "Hi!!");
+      });
     }
+  }).on("messageDelete",async m => {
+console.log(await client.getMessage(m.channel_id, "ID"))
   })
-
 
 client.login();
 client.OnShutDown();

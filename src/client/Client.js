@@ -101,9 +101,34 @@ class Client extends EventEmitter {
     }
     return this.rest.post(`/channels/${channelId}/messages`, body);
   }
+  async editMessage(channelId, messageId, newContentOrOptions) {
+    let body;
+    if (typeof newContentOrOptions === "string") {
+      body = { content: newContentOrOptions };
+    } else {
+      body = newContentOrOptions;
+    }
+    return this.rest.patch(
+      `/channels/${channelId}/messages/${messageId}`,
+      body
+    );
+  }
+
+async getMessage(channelId, messageId) {
+  return await this.rest.get(`/channels/${channelId}/messages/${messageId}`);
+}
+
+
+  async deleteMessage(channelId, messageId) {
+    return this.rest.delete(`/channels/${channelId}/messages/${messageId}`);
+  }
 
   async getUser(userId) {
-    return this.rest.get(`/users/${userId}`);
+    return await this.rest.get(`/users/${userId}`);
+  }
+
+  async getGuild(guildId) {
+    return await this.rest.get(`/guilds/${guildId}`);
   }
 
   get ws() {
