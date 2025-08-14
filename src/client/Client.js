@@ -30,6 +30,14 @@ class Client extends EventEmitter {
       presence: this.presence,
       debug: this.debug,
     });
+
+    this.messagesCache = new Map();
+    this.cache = {
+      message: {
+      msgDelete : options.cache.message.msgDelete ?? false,
+      msgUpdate : options.cache.message.msgUpdate ?? false,
+      },
+    };
     this.rest = new RestManager(this.token);
     this.eventManager = new EventManager(this);
     this.user = null;
@@ -114,10 +122,9 @@ class Client extends EventEmitter {
     );
   }
 
-async getMessage(channelId, messageId) {
-  return await this.rest.get(`/channels/${channelId}/messages/${messageId}`);
-}
-
+  async getMessage(channelId, messageId) {
+    return await this.rest.get(`/channels/${channelId}/messages/${messageId}`);
+  }
 
   async deleteMessage(channelId, messageId) {
     return this.rest.delete(`/channels/${channelId}/messages/${messageId}`);

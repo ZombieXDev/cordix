@@ -1,12 +1,18 @@
 {
   "name": "cordix",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
-  "keywords": ["discord", "bot", "library", "typescript", "javascript"],
+  "keywords": [
+    "discord",
+    "bot",
+    "library",
+    "typescript",
+    "javascript"
+  ],
   "author": "ZombieXDev",
   "license": "MIT",
   "description": "Modern and flexible Discord bot library for TypeScript and JavaScript.",
@@ -20,10 +26,8 @@
     "@types/ws": "^8.18.1",
     "typescript": "^5.8.3"
   },
-
   "repository": {
-  "type": "git",
-  "url": "https://github.com/ZombieXDev/cordix"
-}
-
+    "type": "git",
+    "url": "https://github.com/ZombieXDev/cordix"
+  }
 }

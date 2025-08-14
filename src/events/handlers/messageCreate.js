@@ -1,16 +1,19 @@
 const Message = require("../../structures/Message");
-const Client = require("../../client/Client");
 
 const MessageCreate = {
   name: "MESSAGE_CREATE",
   alias: "messageCreate",
-  transform:(client, rawData) => {
-    return new Message(client, rawData);
+  transform: (client, rawData) => {
+    const message = new Message(client, rawData);
+
+    if (client.cache?.message?.msgDelete || client.cache?.message?.msgUpdate) {
+      client.messagesCache.set(rawData.id, message);
+    }
+
+    return message;
   },
-  handler: (client, message, shardId) => {
-    // here you can handle the message event
-    
-  },
+
+  handler: (client, message, shardId) => {},
 };
 
 module.exports = MessageCreate;
