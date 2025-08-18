@@ -32,10 +32,12 @@ class Client extends EventEmitter {
     });
 
     this.messagesCache = new Map();
+    this.guilds = { cache: new Map() };
     this.cache = {
+      guilds: options.cache.guilds ?? false,
       message: {
-      msgDelete : options.cache.message.msgDelete ?? false,
-      msgUpdate : options.cache.message.msgUpdate ?? false,
+        msgDelete: options.cache.message.msgDelete ?? false,
+        msgUpdate: options.cache.message.msgUpdate ?? false,
       },
     };
     this.rest = new RestManager(this.token);
@@ -155,7 +157,7 @@ class Client extends EventEmitter {
     };
   }
 
-  OnShutDown() {
+  handleShutdown() {
     process.on("SIGINT", async () => {
       console.log("Shutting down client...");
       await this.destroy();

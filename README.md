@@ -1,7 +1,7 @@
 [![Corda Discord Library](https://iili.io/F4a81SV.png)](https://www.npmjs.com/package/cordix)
 
 [![NPM Version](https://img.shields.io/npm/v/cordix.svg?style=flat&color=blue&label=npm)](https://www.npmjs.com/package/cordix)
-[![Discord](https://img.shields.io/discord/123456789012345678.svg?label=discord&logo=discord&color=7289DA)](https://discord.gg/qt4B7Bquwg)
+[![Discord](https://img.shields.io/discord/1400476981258092734.svg?label=discord&logo=discord&color=7289DA)](https://discord.gg/qt4B7Bquwg)
 [![License](https://img.shields.io/npm/l/cordix.svg?color=success)](LICENSE)
 
 # Cordix - Modern Discord Bot Library [Alpha]
@@ -17,7 +17,7 @@
 - Fully typed REST API client
 - Intents & Presence support
 - Automatic or manual sharding
-- Built-in logger & graceful shutdown (`OnShutDown()`)
+- Built-in logger & graceful shutdown (`handleShutdown()`)
 
 ---
 
@@ -56,7 +56,7 @@ client
   });
 
 client.login();
-client.OnShutDown(); // Handles graceful exit (SIGINT/SIGTERM)
+client.handleShutdown(); // Handles graceful exit (SIGINT/SIGTERM)
 ```
 
 ---
@@ -108,7 +108,7 @@ client.login();
 | Method                         | Description                                           |
 | ------------------------------ | ----------------------------------------------------- |
 | `login()`                      | Connects to Discord Gateway                           |
-| `OnShutDown()`                 | Handles graceful shutdown (SIGINT/SIGTERM)            |
+| `handleShutdown()`             | Handles graceful shutdown (SIGINT/SIGTERM)            |
 | `sendMessage(channelId, data)` | Send message to a channel (string or full API object) |
 | `getUser(userId)`              | Fetch user info via REST                              |
 | `rest.get(path)`               | Raw REST GET request                                  |

@@ -1,5 +1,5 @@
 const Message = require("../../structures/Message");
-const Client = require("../../client/Client");
+
 
 const MessageDelete = {
   name: "MESSAGE_DELETE",
@@ -7,7 +7,7 @@ const MessageDelete = {
   transform: (client, rawData) => {
     if (client.cache?.message?.msgDelete) {
       const msg = client.messagesCache.get(rawData.id);
-      client.messagesCache.clear();
+      client.messagesCache.delete(rawData.id);
       return msg ?? rawData;
     }
     return rawData;

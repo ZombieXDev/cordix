@@ -2,7 +2,10 @@ const { Client, Constants } = require("../../src/index.js");
 
 const client = new Client({
   token: "",
-  intents: Constants.DefaultIntents,
+  intents:
+    Constants.DefaultIntents |
+    Constants.Intents.DIRECT_MESSAGES |
+    Constants.Intents.GUILD_MESSAGE_TYPING,
   presence: {
     status: "online",
     activities: [{ name: "My Awesome Bot", type: 0 }],
@@ -13,19 +16,20 @@ const client = new Client({
       msgDelete: true,
       msgUpdate: true,
     },
+    guilds: true,
   },
 });
 
 client
   .on("onReady", async () => {
-    console.log(client.cache);
+    console.log("is Ready");
+  })
+  .on("guildCreate", (guild) => {
+    console.log(`Joined guild: ${guild.name} | ID: ${guild.id}`);
   })
   .on("messageCreate", async (message) => {
-    if (message.author.bot) return;
     if (message.content === "ping") {
-      message.reply("Hi").then((m) => {
-        client.editMessage(message.channelID, m.id, "Hi!!");
-      });
+      message.reply(message.guild.iconURL());
     }
   })
   .on("messageUpdate", (m) => {
@@ -34,4 +38,4 @@ client
   });
 
 client.login();
-client.OnShutDown();
+client.handleShutdown();

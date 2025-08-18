@@ -1,4 +1,5 @@
 const Client = require("../client/Client");
+const User = require("./User");
 
 class Message {
   /**
@@ -8,7 +9,8 @@ class Message {
   constructor(client, data) {
     this.client = client;
     this.id = data.id;
-    this.type = data.type;
+    //(0 = Guild Text, 1 = DM, 3 = Group DM)
+    this.type = this.guildID ? 0 : data.recipients ? 3 : 1;
     this.content = data.content;
     this.tts = data.tts;
     this.attachments = data.attachments;
@@ -17,10 +19,15 @@ class Message {
     this.mention_roles = data.mention_roles;
     this.channelID = data.channel_id ?? null;
     this.guildID = data.guild_id ?? null;
-    this.author = data.author;
+    if (client.cache?.guilds) {
+      this.guild = data.guild_id ? this.client.guilds.cache.get(data.guild_id) : null;
+    }
+    this.author = data.author ? new User(client, data.author) : null;
     this.member = data.member ?? null;
     this.timestamp = new Date(data.timestamp);
-    this.editedTimestamp = data.edited_timestamp ? new Date(data.edited_timestamp) : null;
+    this.editedTimestamp = data.edited_timestamp
+      ? new Date(data.edited_timestamp)
+      : null;
     this.pinned = data.pinned ?? false;
     this.flags = data.flags ?? 0;
     this.embeds = data.embeds ?? [];
@@ -41,7 +48,8 @@ class Message {
    * @returns {Promise<Message>}
    */
   async edit(newContent) {
-    const payload = typeof newContent === "string" ? { content: newContent } : newContent;
+    const payload =
+      typeof newContent === "string" ? { content: newContent } : newContent;
     return await this.client.editMessage(this.channelID, this.id, payload);
   }
 
@@ -51,15 +59,13 @@ class Message {
   async delete() {
     return await this.client.deleteMessage(this.channelID, this.id);
   }
-/**
+  /**
    * @returns {Promise<Message>}
    */
   async fetch() {
     const data = await this.client.getMessage(this.channelID, this.id);
     return new Message(this.client, data);
   }
-
-  
 
   /**
    * @returns {object}
